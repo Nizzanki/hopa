@@ -1,9 +1,11 @@
 package com.hopa.sidecar
 
 import com.hopa.core.contracts.Action
+import com.hopa.core.contracts.Approver
 import com.hopa.core.contracts.RunRecord
 import com.hopa.sidecar.Protocol.text
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /** P0 froze these shapes; P1 emits and refuses them. */
@@ -76,6 +78,31 @@ class ProtocolTest {
         assertEquals("false", refusal["ok"].toString())
         assertEquals("E_UNSUPPORTED", refusal.text("code"))
         assertEquals("not yet", refusal.text("error"))
+    }
+
+    @Test
+    fun step_names_the_device_that_approved() {
+        val record = RunRecord(
+            runId = "run-t",
+            step = 0,
+            traceId = "trace",
+            action = Action(kind = "payment.pay", app = "bank", text = "100"),
+            classification = "payment",
+            approved = true,
+            approver = Approver("phone", 1234),
+            observationHash = "sha256:before",
+            beforeHash = "sha256:before",
+            afterHash = "sha256:after",
+            verified = true,
+            executed = true,
+            prevHash = "sha256:seed",
+            hash = "sha256:record",
+        )
+
+        val step = Protocol.step("t-3", 0, record, at = 0, durationMs = 5)
+
+        assertTrue(step["approver"].toString().contains("\"device\":\"phone\""))
+        assertTrue(step["approver"].toString().contains("\"at\":1234"))
     }
 
     @Test(expected = IllegalArgumentException::class)
