@@ -1,8 +1,8 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.Observation
-import com.hopa.core.ports.DevicePort
-import com.hopa.core.ports.InstalledApp
+import com.hopa.contracts.wire.Observation
+import com.hopa.contracts.ports.DevicePort
+import com.hopa.contracts.ports.InstalledApp
 
 /**
  * P1: the headless device.

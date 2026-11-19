@@ -1,12 +1,13 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.Action
-import com.hopa.core.contracts.Approver
-import com.hopa.core.contracts.RunRecord
+import com.hopa.contracts.wire.Action
+import com.hopa.contracts.wire.Approver
+import com.hopa.contracts.wire.RunRecord
 import com.hopa.sidecar.Protocol.text
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /** P0 froze these shapes; P1 emits and refuses them. */
 class ProtocolTest {
@@ -105,9 +106,11 @@ class ProtocolTest {
         assertTrue(step["approver"].toString().contains("\"at\":1234"))
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun an_unknown_cli_option_is_rejected() {
-        CliOptions.parse(arrayOf("--allow-everything"))
+        assertThrows(IllegalArgumentException::class.java) {
+            CliOptions.parse(arrayOf("--allow-everything"))
+        }
     }
 
     @Test

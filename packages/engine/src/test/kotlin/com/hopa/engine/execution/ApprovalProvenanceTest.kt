@@ -14,17 +14,17 @@ import com.hopa.engine.records.RunRecordFactory
 import com.hopa.engine.testing.FakeClock
 import com.hopa.engine.testing.FakeDevice
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /** P4: the record names the device that answered the approval (ADR-0023). */
 class ApprovalProvenanceTest {
     @Test
     fun a_phone_approval_is_named_on_the_record() = runBlocking {
         val harness = Harness(PhoneApproval())
-        val result = harness.execute(Action(kind = "payment.pay", text = "100"))
+        val result = harness.execute(Action(kind = "payment.pay", text = "100", ref = "pay-button"))
 
         assertTrue(result.record.executed)
         assertEquals(true, result.record.approved)
@@ -36,7 +36,7 @@ class ApprovalProvenanceTest {
     @Test
     fun a_pc_approval_is_named_on_the_record() = runBlocking {
         val harness = Harness(PcApproval())
-        val result = harness.execute(Action(kind = "payment.pay", text = "100"))
+        val result = harness.execute(Action(kind = "payment.pay", text = "100", ref = "pay-button"))
 
         assertTrue(result.record.executed)
         assertEquals("pc", result.record.approver?.device)
@@ -45,7 +45,7 @@ class ApprovalProvenanceTest {
     @Test
     fun a_denial_keeps_the_device_that_denied() = runBlocking {
         val harness = Harness(PhoneDeny())
-        val result = harness.execute(Action(kind = "payment.pay", text = "100"))
+        val result = harness.execute(Action(kind = "payment.pay", text = "100", ref = "pay-button"))
 
         assertEquals(false, result.record.executed)
         assertEquals(false, result.record.approved)

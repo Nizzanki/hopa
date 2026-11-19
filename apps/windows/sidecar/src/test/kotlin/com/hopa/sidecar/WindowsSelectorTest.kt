@@ -1,10 +1,10 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.Action
-import com.hopa.core.gate.PathTier
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Test
+import com.hopa.contracts.wire.Action
+import com.hopa.engine.execution.PathTier
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
 
 /** The Windows path selector: intent first when a page has a URI. */
 class WindowsSelectorTest {

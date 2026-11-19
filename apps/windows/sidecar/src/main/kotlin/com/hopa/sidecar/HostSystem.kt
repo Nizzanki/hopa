@@ -1,6 +1,6 @@
 package com.hopa.sidecar
 
-import com.hopa.core.ports.SystemPort
+import com.hopa.contracts.ports.SystemPort
 
 /**
  * The Windows system port: the one call that exists today is `openLink`, which

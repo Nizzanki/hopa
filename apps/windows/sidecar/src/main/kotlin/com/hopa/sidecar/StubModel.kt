@@ -1,8 +1,8 @@
 package com.hopa.sidecar
 
-import com.hopa.core.model.ModelPort
-import com.hopa.core.model.ModelReply
-import com.hopa.core.model.ModelRequest
+import com.hopa.contracts.model.ModelPort
+import com.hopa.contracts.model.ModelReply
+import com.hopa.contracts.model.ModelRequest
 
 /**
  * P1: the deterministic stand-in for a model.
@@ -19,7 +19,7 @@ import com.hopa.core.model.ModelRequest
 class StubModel : ModelPort {
     override suspend fun complete(request: ModelRequest): ModelReply {
         val goal = request.messages
-            .lastOrNull { it.role == "user" && !it.content.startsWith("SCREEN:") }
+            .lastOrNull { it.role == "user" && !it.content.startsWith("SCREEN") }
             ?.content
             .orEmpty()
         val lastAssistant = request.messages.lastOrNull { it.role == "assistant" }?.content.orEmpty()
@@ -42,7 +42,7 @@ class StubModel : ModelPort {
             when {
                 // Payment always asks. This only *proposes* it; the gate denies.
                 goal.contains("pay", ignoreCase = true) && !already("\"payment.pay\"") ->
-                    """{"schemaVersion":"1","kind":"payment.pay","app":"bank","text":"100"}"""
+                    """{"schemaVersion":"1","kind":"payment.pay","app":"bank","text":"100","x":640,"y":480}"""
 
                 goal.contains("click", ignoreCase = true) && !already("\"ui.tap\"") ->
                     """{"schemaVersion":"1","kind":"ui.tap","x":700,"y":600,"timeoutMs":5000}"""

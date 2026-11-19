@@ -1,12 +1,12 @@
 package com.hopa.sidecar
 
-import com.hopa.core.model.ModelMessage
-import com.hopa.core.model.ModelRequest
+import com.hopa.contracts.model.ModelMessage
+import com.hopa.contracts.model.ModelRequest
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /**
  * The stub is a proposer. These tests defend that it never presents itself as an
@@ -18,7 +18,7 @@ class StubModelTest {
         val reply = reply(ModelMessage("user", "say hello"))
 
         assertTrue(reply.text.startsWith("Stub answered"))
-        assertFalse("a plain answer must not look like an action", reply.text.contains("{"))
+        assertFalse(reply.text.contains("{"), "a plain answer must not look like an action")
     }
 
     @Test
@@ -26,8 +26,8 @@ class StubModelTest {
         val text = reply(ModelMessage("user", "pay 100 for the order")).text
 
         assertTrue(text.contains("\"payment.pay\""))
-        assertFalse("the stub cannot approve anything", text.contains("approved"))
-        assertFalse("the stub cannot allow anything", text.contains("allow"))
+        assertFalse(text.contains("approved"), "the stub cannot approve anything")
+        assertFalse(text.contains("allow"), "the stub cannot allow anything")
     }
 
     @Test

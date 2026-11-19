@@ -1,9 +1,9 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.Action
-import com.hopa.core.gate.PathSelector
-import com.hopa.core.gate.PathTier
-import com.hopa.core.gate.PlannedAction
+import com.hopa.contracts.wire.Action
+import com.hopa.engine.execution.PathSelector
+import com.hopa.engine.execution.PathTier
+import com.hopa.engine.execution.PlannedAction
 
 /**
  * The Windows path selector.

@@ -1,7 +1,7 @@
 package com.hopa.sidecar
 
-import com.hopa.core.gate.ApprovalGateway
-import com.hopa.core.gate.ApprovalRequest
+import com.hopa.contracts.approval.ApprovalGateway
+import com.hopa.contracts.approval.ApprovalRequest
 import java.util.concurrent.atomic.AtomicInteger
 
 /**

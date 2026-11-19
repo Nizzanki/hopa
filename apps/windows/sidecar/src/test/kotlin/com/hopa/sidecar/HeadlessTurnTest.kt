@@ -1,21 +1,21 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.ErrorCodes
-import com.hopa.core.contracts.Observation
-import com.hopa.core.contracts.ObservationNode
-import com.hopa.core.contracts.ScreenSize
-import com.hopa.core.gate.ApprovalGateway
-import com.hopa.core.ports.DevicePort
-import com.hopa.core.ports.InstalledApp
+import com.hopa.contracts.ErrorCodes
+import com.hopa.contracts.wire.Observation
+import com.hopa.contracts.wire.ObservationNode
+import com.hopa.contracts.wire.ScreenSize
+import com.hopa.contracts.approval.ApprovalGateway
+import com.hopa.contracts.ports.DevicePort
+import com.hopa.contracts.ports.InstalledApp
 import com.hopa.sidecar.Protocol.text
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /**
  * P1: the engine runs through the real loop and the real gate without a window.
@@ -32,7 +32,7 @@ class HeadlessTurnTest {
 
         val outcome = runBlocking { engine(dataDir).runTurn("t-hello", "say hello", null) }
 
-        assertTrue(outcome.answer, outcome.answer.startsWith("Stub answered"))
+        assertTrue(outcome.answer.startsWith("Stub answered"), outcome.answer)
         assertEquals(0, outcome.records.size)
         assertTrue(outcome.chainOk)
         assertNull(outcome.error)
@@ -54,7 +54,7 @@ class HeadlessTurnTest {
         assertEquals(false, record.executed)
         assertEquals(ErrorCodes.REFUSED, record.error)
         assertEquals(1, approvals.requests)
-        assertTrue("the denied payment must not reach the device", device.taps.isEmpty())
+        assertTrue(device.taps.isEmpty(), "the denied payment must not reach the device")
         assertEquals("I did not run that.", outcome.answer)
         assertTrue(outcome.chainOk)
     }
@@ -70,7 +70,7 @@ class HeadlessTurnTest {
 
         val record = outcome.records.single()
         assertEquals("read", record.classification)
-        assertNull("a read action needs no approval", record.approved)
+        assertNull(record.approved, "a read action needs no approval")
         assertTrue(record.executed)
         assertEquals(1, device.taps.size)
     }
@@ -107,7 +107,7 @@ class HeadlessTurnTest {
         val record = outcome.records.single()
         assertFalse(record.executed)
         assertEquals(ErrorCodes.UNSUPPORTED, record.error)
-        assertTrue(outcome.answer, outcome.answer.startsWith("I could not do that:"))
+        assertTrue(outcome.answer.startsWith("I could not do that:"), outcome.answer)
     }
 
     @Test

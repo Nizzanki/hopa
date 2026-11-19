@@ -1,6 +1,6 @@
 package com.hopa.sidecar
 
-import com.hopa.core.contracts.Approver
+import com.hopa.contracts.wire.Approver
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
